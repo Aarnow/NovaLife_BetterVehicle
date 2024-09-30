@@ -6,6 +6,7 @@ using ModKit.Helper.VehicleHelper.Classes;
 using ModKit.Interfaces;
 using ModKit.Internal;
 using ModKit.Utils;
+using Socket.Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using _menu = AAMenu.Menu;
@@ -155,7 +156,7 @@ namespace BetterVehicle
                 {
                     if(price > 0)
                     {
-                        vehicle.Price = Math.Ceiling(price);
+                        vehicle.Price = Math.Round(price, 2);
                         if (await vehicle.Save())
                         {
                             player.Notify("BetterVehicle", "Modification enregistrée", NotificationManager.Type.Success);
