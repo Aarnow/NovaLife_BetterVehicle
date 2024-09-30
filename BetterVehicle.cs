@@ -6,7 +6,6 @@ using ModKit.Helper.VehicleHelper.Classes;
 using ModKit.Interfaces;
 using ModKit.Internal;
 using ModKit.Utils;
-using Socket.Newtonsoft.Json.Linq;
 using System;
 using System.Linq;
 using _menu = AAMenu.Menu;
@@ -119,21 +118,18 @@ namespace BetterVehicle
             Panel panel = PanelHelper.Create("BetterVehicle - Modifier le nom", UIPanel.PanelType.Input, player, () => SetVehicleName(player, vehicle));
 
             panel.TextLines.Add("Donner un nom à ce véhicule");
-            panel.inputPlaceholder = "3 caractères minimum";
+            panel.TextLines.Add($"{mk.Size($"{mk.Italic($"{mk.Color("(Ne rien mettre applique le nom du modèle par défaut)", mk.Colors.Grey)}")}", 14)}");
+            panel.inputPlaceholder = $"{Nova.v.vehicleModels[vehicle.ModelId].vehicleName}";
 
             panel.PreviousButtonWithAction("Sélectionner", async () =>
             {
-                if(panel.inputText.Length >= 3)
+                vehicle.Name = panel.inputText.Length != 0 ? panel.inputText : Nova.v.vehicleModels[vehicle.ModelId].vehicleName;
+                if (await vehicle.Save())
                 {
-                    vehicle.Name = panel.inputText;
-                    if (await vehicle.Save())
-                    {
-                        player.Notify("BetterVehicle", "Modification enregistrée", NotificationManager.Type.Success);
-                        return true;
-                    }
-                    else player.Notify("BetterVehicle", "Nous n'avons pas pu enregistrer cette modification", NotificationManager.Type.Error);
+                    player.Notify("BetterVehicle", "Modification enregistrée", NotificationManager.Type.Success);
+                    return true;
                 }
-                else player.Notify("BetterVehicle", "3 caractères minimum", NotificationManager.Type.Warning);
+                else player.Notify("BetterVehicle", "Nous n'avons pas pu enregistrer cette modification", NotificationManager.Type.Error);
 
                 return false;
             });
