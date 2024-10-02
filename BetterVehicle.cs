@@ -76,7 +76,7 @@ namespace BetterVehicle
                 });
             }
 
-            panel.AddButton("Retour", ui => AAMenu.AAMenu.menu.AdminPluginPanel(player, AAMenu.AAMenu.menu.AdminPluginTabLines));
+            panel.AddButton("Retour", ui => AAMenu.AAMenu.menu.AdminPluginPanel(player));
             panel.CloseButton();
 
             panel.Display();
