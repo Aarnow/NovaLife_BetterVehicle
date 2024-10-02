@@ -9,7 +9,6 @@ using ModKit.Utils;
 using System;
 using System.Linq;
 using _menu = AAMenu.Menu;
-using mk = ModKit.Helper.TextFormattingHelper;
 
 namespace BetterVehicle
 {
@@ -29,7 +28,7 @@ namespace BetterVehicle
 
         public void InsertMenu()
         {
-            _menu.AddAdminTabLine(PluginInformations, 5, "BetterVehicle", (ui) =>
+            _menu.AddAdminPluginTabLine(PluginInformations, 5, "BetterVehicle", (ui) =>
             {
                 Player player = PanelHelper.ReturnPlayerFromPanel(ui);
                 BetterVehiclePanel(player);
@@ -40,7 +39,7 @@ namespace BetterVehicle
         {
             var query = await VehicleHelper.GetVehicles();
             
-            Panel panel = PanelHelper.Create("BetterVehicle- Liste des véhicules", UIPanel.PanelType.TabPrice, player, () => BetterVehiclePanel(player));
+            Panel panel = PanelHelper.Create("BetterVehicle - Liste des véhicules", UIPanel.PanelType.TabPrice, player, () => BetterVehiclePanel(player));
 
             if (query != null && query.Count > 0)
             {
@@ -77,10 +76,7 @@ namespace BetterVehicle
                 });
             }
 
-            panel.AddButton("Retour", ui =>
-            {
-                AAMenu.AAMenu.menu.AdminPanel(player, AAMenu.AAMenu.menu.AdminTabLines);
-            });
+            panel.AddButton("Retour", ui => AAMenu.AAMenu.menu.AdminPluginPanel(player, AAMenu.AAMenu.menu.AdminPluginTabLines));
             panel.CloseButton();
 
             panel.Display();
